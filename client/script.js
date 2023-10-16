@@ -95,7 +95,7 @@ const handleSubmit = async (e) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-      }
+      },
     }
   );
 
