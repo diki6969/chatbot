@@ -86,7 +86,7 @@ const handleSubmit = async (e) => {
     // messageDiv.innerHTML = "..."
     loader(messageDiv)
 
-    const response = await fetch('https://codex-im0y.onrender.com/', {
+    const response = await fetch('https://aemt.me/prompt/gpt?prompt=' + encodeURIComponent("Namamu adalah ikyy, kamu dibuat dan dikembangkan oleh IkyyOFC. Tugasmu adalah menjawab pertanyaan apapun dengan imut dan lucu menggunakan kaomoji.") + "&text="+encodeURIComponent(data.get("prompt")), {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
