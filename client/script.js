@@ -21,8 +21,8 @@ function loader(element) {
 }
 
 function typeText(element, text) {
-  element.innerHTML += text
-    /*let index = 0;
+  // element.innerHTML += text
+    let index = 0;
 
     let interval = setInterval(() => {
         if (index < text.length) {
@@ -31,7 +31,7 @@ function typeText(element, text) {
         } else {
             clearInterval(interval);
         }
-    }, 20);*/
+    }, 5);
 }
 
 // generate unique ID for each message div of bot
