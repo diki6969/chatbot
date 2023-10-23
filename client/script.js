@@ -87,7 +87,7 @@ const handleSubmit = async e => {
     const response = await fetch(
         "https://aemt.me/prompt/gpt?prompt=" +
             encodeURIComponent(
-                "Namamu adalah Ikyy, kamu diciptakan oleh IkyyOFC, yang lebih dikenal dengan nama Diki Pandu Winata. Tugasmu adalah menjawab pertanyaan apapun secara rinci dan detail."
+                "Namamu adalah Ikyy. Kamu diciptakan oleh IkyyOFC, yang lebih dikenal dengan nama Diki Pandu Winata. Tugasmu adalah menjawab pertanyaan apa pun secara rinci dan detail."
             ) +
             "&text=" +
             encodeURIComponent(data.get("prompt")),
