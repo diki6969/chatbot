@@ -45,7 +45,7 @@ function generateUniqueId() {
     return `id-${timestamp}-${hexadecimalString}`;
 }
 
-function chatStripe(isAi, value, uniqueId, imag = false) {
+function chatStripe(isAi, imag = false, value, uniqueId) {
     return `
         <div class="wrapper ${isAi && "ai"}">
             <div class="chat">
@@ -71,7 +71,9 @@ const handleSubmit = async e => {
     const data = new FormData(form);
 
     // user's chatstripe
-    chatContainer.innerHTML += !imgvalid ? chatStripe(false, data.get("prompt")) : chatStripe(false, true, data.get("prompt"))
+    chatContainer.innerHTML += !imgvalid
+        ? chatStripe(false, data.get("prompt"))
+        : chatStripe(false, true, data.get("prompt"));
 
     // to clear the textarea input
     form.reset();
