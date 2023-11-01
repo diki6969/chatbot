@@ -64,10 +64,9 @@ function chatStripe(isAi, imag = false, value, uniqueId) {
         </div>
     `;
 }
-const imgvalid = data.get("prompt").startsWith("/img");
 const handleSubmit = async e => {
     e.preventDefault();
-
+    const imgvalid = await data.get("prompt").startsWith("/img");
     const data = new FormData(form);
 
     // user's chatstripe
