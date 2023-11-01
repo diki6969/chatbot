@@ -58,7 +58,7 @@ function chatStripe(isAi, imag = false, value, uniqueId) {
                 ${
                     !imag
                         ? `<div class="message" id=${uniqueId}>${value}</div>`
-                        : `<div class="message" <img src="https://telegra.ph/file/4e0785cc2bc2f5855a00e.jpg"/></div>`
+                        : `<div class="message"> <img src="https://telegra.ph/file/4e0785cc2bc2f5855a00e.jpg"/></div>`
                 }
             </div>
         </div>
