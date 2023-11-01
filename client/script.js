@@ -70,7 +70,9 @@ const handleSubmit = async e => {
     const data = new FormData(form);
     const imgvalid = data.get("prompt").startsWith("/img");
     // user's chatstripe
-    chatContainer.innerHTML += chatStripe(false, data.get("prompt"));
+    chatContainer.innerHTML += !imgvalid
+        ? chatStripe(false, data.get("prompt"))
+        : chatStripe(false, true, data.get("prompt"));
 
     // to clear the textarea input
     form.reset();
