@@ -81,9 +81,11 @@ const handleSubmit = async e => {
 
     // bot's chatstripe
     const uniqueId = generateUniqueId();
-    chatContainer.innerHTML += !imgvalid
-        ? chatStripe(true, " ", uniqueId)
-        : chatStripe(true, true, " ", uniqueId);
+    if (!imgvalid) {
+        chatContainer.innerHTML += chatStripe(true, " ", uniqueId);
+    } else {
+        chatContainer.innerHTML += chatStripe(true, true, " ", uniqueId);
+    }
 
     // to focus scroll to the bottom
     chatContainer.scrollTop = chatContainer.scrollHeight;
