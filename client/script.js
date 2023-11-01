@@ -64,7 +64,7 @@ function chatStripe(isAi, value, uniqueId, imag = false) {
         </div>
     `;
 }
-
+const imgvalid = data.get("prompt").startsWith("/img");
 const handleSubmit = async e => {
     e.preventDefault();
 
