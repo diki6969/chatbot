@@ -64,11 +64,11 @@ function chatStripe(isAi, imag = false, value, uniqueId) {
         </div>
     `;
 }
-const imgvalid = data.get("prompt").startsWith("/img");
+
 const handleSubmit = async e => {
     e.preventDefault();
     const data = new FormData(form);
-
+    const imgvalid = data.get("prompt").startsWith("/img");
     // user's chatstripe
     chatContainer.innerHTML += chatStripe(false, data.get("prompt"));
 
