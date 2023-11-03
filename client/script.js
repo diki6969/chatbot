@@ -21,7 +21,6 @@ function loader(element) {
 }
 
 function typeText(element, text) {
-    // element.innerHTML += text
     let index = 0;
 
     let interval = setInterval(() => {
@@ -31,7 +30,7 @@ function typeText(element, text) {
         } else {
             clearInterval(interval);
         }
-    }, 5);
+    }, 20);
 }
 
 // generate unique ID for each message div of bot
@@ -45,7 +44,7 @@ function generateUniqueId() {
     return `id-${timestamp}-${hexadecimalString}`;
 }
 
-function chatStripe(isAi, imag = false, value, uniqueId) {
+function chatStripe(isAi, value, uniqueId) {
     return `
         <div class="wrapper ${isAi && "ai"}">
             <div class="chat">
@@ -55,11 +54,7 @@ function chatStripe(isAi, imag = false, value, uniqueId) {
                       alt="${isAi ? "bot" : "user"}" 
                     />
                 </div>
-                ${
-                    !imag
-                        ? `<div class="message" id=${uniqueId}>${value}</div>`
-                        : `<div class="message"> <img src="https://telegra.ph/file/4e0785cc2bc2f5855a00e.jpg"/></div>`
-                }
+                <div class="message" id=${uniqueId}>${value}</div>
             </div>
         </div>
     `;
@@ -67,25 +62,18 @@ function chatStripe(isAi, imag = false, value, uniqueId) {
 
 const handleSubmit = async e => {
     e.preventDefault();
+
     const data = new FormData(form);
-    const imgvalid = data.get("prompt").startsWith("/img");
-    if (!imgvalid) {
-        // user's chatstripe
-        chatContainer.innerHTML += chatStripe(false, data.get("prompt"));
-    } else {
-        chatContainer.innerHTML += chatStripe(false, true, data.get("prompt"));
-    }
+
+    // user's chatstripe
+    chatContainer.innerHTML += chatStripe(false, data.get("prompt"));
 
     // to clear the textarea input
     form.reset();
 
     // bot's chatstripe
     const uniqueId = generateUniqueId();
-    if (!imgvalid) {
-        chatContainer.innerHTML += chatStripe(true, " ", uniqueId);
-    } else {
-        chatContainer.innerHTML += chatStripe(true, true, " ", uniqueId);
-    }
+    chatContainer.innerHTML += chatStripe(true, " ", uniqueId);
 
     // to focus scroll to the bottom
     chatContainer.scrollTop = chatContainer.scrollHeight;
