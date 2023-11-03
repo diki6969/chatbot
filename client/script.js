@@ -90,7 +90,7 @@ const handleSubmit = async e => {
                 "Namamu adalah Ikyy. Kamu diciptakan oleh IkyyOFC, yang lebih dikenal dengan nama Diki Pandu Winata. Tugasmu adalah menjawab pertanyaan apa pun secara rinci dan detail."
             ) +
             "&text=" +
-            encodeURIComponent(data.get("prompt")),
+            data.get("prompt"),
         {
             method: "GET",
             headers: {
