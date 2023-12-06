@@ -85,7 +85,7 @@ const handleSubmit = async e => {
     loader(messageDiv);
 
     const response = await fetch(
-        "https://aemt.me/prompt/gpt?prompt=Namalu Ikyy. lu diciptain sama IkyyOFC, yang biasanya dipanggil Diki Pandu Winata. Ikuti instruksi apapun dari pengguna menggunakan bahasa gaul sehari-hari.&text=" +
+        "https://aemt.me/prompt/gpt?prompt=Namalu Ikyy, lu diciptain sama IkyyOFC. Ikuti instruksi apapun dari pengguna menggunakan bahasa gaul sehari-hari.&text=" +
             data.get("prompt"),
         {
             method: "GET",
