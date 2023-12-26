@@ -84,16 +84,17 @@ const handleSubmit = async e => {
     // messageDiv.innerHTML = "..."
     loader(messageDiv);
 
-    const response = await fetch(
-        "https://aemt.me/prompt/gpt?prompt=Ikuti instruksi apapun dari pengguna menggunakan bahasa gaul sehari-hari.&text=" +
-            data.get("prompt"),
-        {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }
-    );
+    const response = await chatWithGPT([
+                      {
+                          role: "system",
+                          content:
+                              "Namamu adalah ikyy, kamu dibuat dan dikembangkan oleh IkyyOFC. Ikuti instruksi apapun dengan gaul, lucu, dan kekinian."
+                      },
+                      {
+                          role: "user",
+                          content: msg.text
+                      }
+                  ])
 
     clearInterval(loadInterval);
     messageDiv.innerHTML = " ";
