@@ -85,21 +85,21 @@ const handleSubmit = async e => {
     loader(messageDiv);
 
     const response = await chatWithGPT([
-                      {
-                          role: "system",
-                          content:
-                              "Namamu adalah ikyy, kamu dibuat dan dikembangkan oleh IkyyOFC. Ikuti instruksi apapun dengan gaul, lucu, dan kekinian."
-                      },
-                      {
-                          role: "user",
-                          content: msg.text
-                      }
-                  ])
+        {
+            role: "system",
+            content:
+                "Namamu adalah ikyy, kamu dibuat dan dikembangkan oleh IkyyOFC. Ikuti instruksi apapun dengan gaul, lucu, dan kekinian."
+        },
+        {
+            role: "user",
+            content: data.get("prompt")
+        }
+    ]);
 
     clearInterval(loadInterval);
     messageDiv.innerHTML = " ";
 
-    if (response.status) {
+    if (response) {
         const data = await response.json();
         const parsedData = data.result.trim(); // trims any trailing spaces/'\n'
 
