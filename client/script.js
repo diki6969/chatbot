@@ -117,3 +117,25 @@ form.addEventListener("keyup", e => {
         handleSubmit(e);
     }
 });
+
+function chatWithGPT(messages) {
+    return new Promise((resolve, reject) => {
+        fetch(
+            "https://oai-4.openai.azure.com/openai/deployments/complete-4/chat/completions?api-version=2023-07-01-preview",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "api-key": "2e6532692d764b48b5454f0f4abf8c81"
+                },
+                body: JSON.stringify({
+                    messages
+                })
+            }
+        ).then(response => {
+            response.json().then(data => {
+                resolve(data.choices[0].message.content);
+            });
+        });
+    });
+}
