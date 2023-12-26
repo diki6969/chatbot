@@ -100,8 +100,7 @@ const handleSubmit = async e => {
     messageDiv.innerHTML = " ";
 
     if (response) {
-        const data = await response.json();
-        const parsedData = data.result.trim(); // trims any trailing spaces/'\n'
+        const parsedData = response.trim(); // trims any trailing spaces/'\n'
 
         typeText(messageDiv, parsedData);
     } else {
