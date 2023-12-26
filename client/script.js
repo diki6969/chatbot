@@ -104,7 +104,6 @@ const handleSubmit = async e => {
 
         typeText(messageDiv, parsedData);
     } else {
-    } else {
         const err = await response.text();
 
         messageDiv.innerHTML = "Something went wrong";
