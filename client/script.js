@@ -83,7 +83,10 @@ const handleSubmit = async e => {
 
     // messageDiv.innerHTML = "..."
     loader(messageDiv);
-
+    let client = {};
+    client.autoai_continue = client.autoai_continue
+        ? client.autoai_continue
+        : {};
     const response = await chatWithGPT([
         {
             role: "system",
