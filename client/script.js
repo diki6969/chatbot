@@ -84,9 +84,6 @@ const handleSubmit = async e => {
     // messageDiv.innerHTML = "..."
     loader(messageDiv);
     let client = {};
-    client.autoai_continue = client.autoai_continue
-        ? client.autoai_continue
-        : {};
     let content = client.autoai_continue[uniqueId]
         ? client.autoai_continue[uniqueId].cont.push({
               role: "user",
