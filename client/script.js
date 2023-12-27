@@ -96,26 +96,7 @@ const handleSubmit = async e => {
     if (response) {
         const parsedData = response.trim(); // trims any trailing spaces/'\n'
 
-        typeText(messageDiv, parsedData).then(async () => {
-            client.autoai_continue[uniqueId]
-                ? null
-                : await content.push({
-                      role: "assistant",
-                      content: json
-                  });
-            client.autoai_continue[uniqueId]
-                ? client.autoai_continue[
-                      uniqueId
-                  ].cont.push({
-                      role: "assistant",
-                      content: json
-                  })
-                : (client.autoai_continue[
-                      uniqueId
-                  ] = {
-                      cont: content
-                  });
-        });
+        typeText(messageDiv, parsedData)
     } else {
         const err = await response.text();
 
