@@ -120,12 +120,12 @@ const handleSubmit = async e => {
                 ? null
                 : await content.push({
                       role: "assistant",
-                      content: json
+                      content: response
                   });
             client.autoai_continue[uniqueId]
                 ? client.autoai_continue[uniqueId].cont.push({
                       role: "assistant",
-                      content: json
+                      content: response
                   })
                 : (client.autoai_continue[uniqueId] = {
                       cont: content
@@ -153,15 +153,15 @@ function chatWithGPT(messages) {
             {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
+                    "Content-Type": "application/response",
                     "api-key": "2e6532692d764b48b5454f0f4abf8c81"
                 },
-                body: JSON.stringify({
+                body: response.stringify({
                     messages
                 })
             }
         ).then(response => {
-            response.json().then(data => {
+            response.response().then(data => {
                 resolve(data.choices[0].message.content);
             });
         });
