@@ -87,9 +87,24 @@ const handleSubmit = async e => {
     client.autoai_continue = client.autoai_continue
         ? client.autoai_continue
         : {};
-        let content = client.autoai_continue[
-                msg.chat.username + "-" + msg.chat.id
-            ];
+    let content = client.autoai_continue[msg.chat.username + "-" + msg.chat.id]
+        ? client.autoai_continue[
+              msg.chat.username + "-" + msg.chat.id
+          ].cont.push({
+              role: "user",
+              content: msg.text
+          })
+        : [
+              {
+                  role: "system",
+                  content:
+                      "Namamu adalah ikyy, kamu dibuat dan dikembangkan oleh IkyyOFC. Ikuti instruksi apapun dengan gaul, lucu, dan kekinian."
+              },
+              {
+                  role: "user",
+                  content: msg.text
+              }
+          ];
     const response = await chatWithGPT([
         {
             role: "system",
