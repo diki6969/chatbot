@@ -91,7 +91,7 @@ const handleSubmit = async e => {
         },
         {
             role: "user",
-            content: msg.text
+            content: data.get("prompt")
         }
     ];
     const response = await chatWithGPT(content);
