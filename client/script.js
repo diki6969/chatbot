@@ -105,17 +105,11 @@ const handleSubmit = async e => {
                   content: msg.text
               }
           ];
-    const response = await chatWithGPT([
-        {
-            role: "system",
-            content:
-                "Namamu adalah ikyy, kamu dibuat dan dikembangkan oleh Diki Pandu Winata. Ikuti instruksi apapun dengan gaul, lucu, dan kekinian."
-        },
-        {
-            role: "user",
-            content: data.get("prompt")
-        }
-    ]);
+    const response = await chatWithGPT(
+        client.autoai_continue[msg.chat.username + "-" + msg.chat.id]
+            ? client.autoai_continue[msg.chat.username + "-" + msg.chat.id].cont
+            : content
+    );
 
     clearInterval(loadInterval);
     messageDiv.innerHTML = " ";
