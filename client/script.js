@@ -83,12 +83,18 @@ const handleSubmit = async e => {
 
     // messageDiv.innerHTML = "..."
     loader(messageDiv);
-    
-    const response = await chatWithGPT(
-        client.autoai_continue[uniqueId]
-            ? client.autoai_continue[uniqueId].cont
-            : content
-    );
+    let content = [
+        {
+            role: "system",
+            content:
+                "Namamu adalah ikyy, kamu dibuat dan dikembangkan oleh Diki Pandu Winata. Ikuti instruksi apapun dengan gaul, lucu, dan kekinian."
+        },
+        {
+            role: "user",
+            content: msg.text
+        }
+    ];
+    const response = await chatWithGPT(content);
 
     clearInterval(loadInterval);
     messageDiv.innerHTML = " ";
@@ -96,7 +102,7 @@ const handleSubmit = async e => {
     if (response) {
         const parsedData = response.trim(); // trims any trailing spaces/'\n'
 
-        typeText(messageDiv, parsedData)
+        typeText(messageDiv, parsedData);
     } else {
         const err = await response.text();
 
