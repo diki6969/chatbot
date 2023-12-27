@@ -123,7 +123,26 @@ const handleSubmit = async e => {
     if (response) {
         const parsedData = response.trim(); // trims any trailing spaces/'\n'
 
-        typeText(messageDiv, parsedData);
+        typeText(messageDiv, parsedData).then(async () => {
+            client.autoai_continue[msg.chat.username + "-" + msg.chat.id]
+                ? null
+                : await content.push({
+                      role: "assistant",
+                      content: json
+                  });
+            client.autoai_continue[msg.chat.username + "-" + msg.chat.id]
+                ? client.autoai_continue[
+                      msg.chat.username + "-" + msg.chat.id
+                  ].cont.push({
+                      role: "assistant",
+                      content: json
+                  })
+                : (client.autoai_continue[
+                      msg.chat.username + "-" + msg.chat.id
+                  ] = {
+                      cont: content
+                  });
+        });
     } else {
         const err = await response.text();
 
