@@ -88,7 +88,7 @@ const handleSubmit = async e => {
         {
             role: "system",
             content:
-                "Namamu adalah ikyy, kamu dibuat dan dikembangkan oleh IkyyOFC. Ikuti instruksi apapun dengan gaul, lucu, dan kekinian."
+                "Namamu adalah ikyy, kamu dibuat dan dikembangkan oleh Diki Pandu Winata. Ikuti instruksi apapun dengan gaul, lucu, dan kekinian."
         },
         {
             role: "user",
