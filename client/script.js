@@ -88,9 +88,7 @@ const handleSubmit = async e => {
         ? client.autoai_continue
         : {};
     let content = client.autoai_continue[uniqueId]
-        ? client.autoai_continue[
-              uniqueId
-          ].cont.push({
+        ? client.autoai_continue[uniqueId].cont.push({
               role: "user",
               content: msg.text
           })
@@ -125,15 +123,11 @@ const handleSubmit = async e => {
                       content: json
                   });
             client.autoai_continue[uniqueId]
-                ? client.autoai_continue[
-                      uniqueId
-                  ].cont.push({
+                ? client.autoai_continue[uniqueId].cont.push({
                       role: "assistant",
                       content: json
                   })
-                : (client.autoai_continue[
-                      uniqueId
-                  ] = {
+                : (client.autoai_continue[uniqueId] = {
                       cont: content
                   });
         });
