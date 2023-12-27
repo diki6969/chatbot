@@ -84,8 +84,13 @@ const handleSubmit = async e => {
     // messageDiv.innerHTML = "..."
     loader(messageDiv);
     let client = {};
+    client.autoai_continue = client.autoai_continue
+        ? client.autoai_continue
+        : {};
     let content = client.autoai_continue[uniqueId]
-        ? client.autoai_continue[uniqueId].cont.push({
+        ? client.autoai_continue[
+              uniqueId
+          ].cont.push({
               role: "user",
               content: msg.text
           })
@@ -117,14 +122,18 @@ const handleSubmit = async e => {
                 ? null
                 : await content.push({
                       role: "assistant",
-                      content: response
+                      content: json
                   });
             client.autoai_continue[uniqueId]
-                ? client.autoai_continue[uniqueId].cont.push({
+                ? client.autoai_continue[
+                      uniqueId
+                  ].cont.push({
                       role: "assistant",
-                      content: response
+                      content: json
                   })
-                : (client.autoai_continue[uniqueId] = {
+                : (client.autoai_continue[
+                      uniqueId
+                  ] = {
                       cont: content
                   });
         });
@@ -150,15 +159,15 @@ function chatWithGPT(messages) {
             {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/response",
+                    "Content-Type": "application/json",
                     "api-key": "2e6532692d764b48b5454f0f4abf8c81"
                 },
-                body: response.stringify({
+                body: JSON.stringify({
                     messages
                 })
             }
         ).then(response => {
-            response.response().then(data => {
+            response.json().then(data => {
                 resolve(data.choices[0].message.content);
             });
         });
