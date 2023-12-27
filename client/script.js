@@ -87,6 +87,9 @@ const handleSubmit = async e => {
     client.autoai_continue = client.autoai_continue
         ? client.autoai_continue
         : {};
+        let content = client.autoai_continue[
+                msg.chat.username + "-" + msg.chat.id
+            ]
     const response = await chatWithGPT([
         {
             role: "system",
