@@ -87,9 +87,9 @@ const handleSubmit = async e => {
     client.autoai_continue = client.autoai_continue
         ? client.autoai_continue
         : {};
-    let content = client.autoai_continue[msg.chat.username + "-" + msg.chat.id]
+    let content = client.autoai_continue[uniqueId]
         ? client.autoai_continue[
-              msg.chat.username + "-" + msg.chat.id
+              uniqueId
           ].cont.push({
               role: "user",
               content: msg.text
@@ -106,8 +106,8 @@ const handleSubmit = async e => {
               }
           ];
     const response = await chatWithGPT(
-        client.autoai_continue[msg.chat.username + "-" + msg.chat.id]
-            ? client.autoai_continue[msg.chat.username + "-" + msg.chat.id].cont
+        client.autoai_continue[uniqueId]
+            ? client.autoai_continue[uniqueId].cont
             : content
     );
 
@@ -118,21 +118,21 @@ const handleSubmit = async e => {
         const parsedData = response.trim(); // trims any trailing spaces/'\n'
 
         typeText(messageDiv, parsedData).then(async () => {
-            client.autoai_continue[msg.chat.username + "-" + msg.chat.id]
+            client.autoai_continue[uniqueId]
                 ? null
                 : await content.push({
                       role: "assistant",
                       content: json
                   });
-            client.autoai_continue[msg.chat.username + "-" + msg.chat.id]
+            client.autoai_continue[uniqueId]
                 ? client.autoai_continue[
-                      msg.chat.username + "-" + msg.chat.id
+                      uniqueId
                   ].cont.push({
                       role: "assistant",
                       content: json
                   })
                 : (client.autoai_continue[
-                      msg.chat.username + "-" + msg.chat.id
+                      uniqueId
                   ] = {
                       cont: content
                   });
