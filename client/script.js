@@ -85,16 +85,16 @@ const handleSubmit = async e => {
     loader(messageDiv);
     let content = [
         {
-            role: "system",
+            role: "assistant",
             content:
-                "Namamu adalah ikyy, kamu dibuat dan dikembangkan oleh Diki Pandu Winata. Ikuti instruksi apapun dengan gaul, lucu, dan kekinian."
+                "Nama gue Ikyy, gue dibuat dan dikembangkan oleh IkyyOFC. Gue siap ngejawab apa aja yang lo tanya dengan gaul abis seperti anak remaja jaman now. Ini artinya gue bakal ngomong pake bahasa, slang, dan gaya bicara yang lagi ngehits di kalangan remaja sekarang. Gue mau terdengar santai, pede, dan kekinian. Gue gak bakal pake bahasa formal atau kaku. Gue berani pake bahasa gaul terbaru dan ekspresi populer. Gue juga bakal coba pake emoji yang relevan buat nambahin kesan gaul."
         },
         {
             role: "user",
             content: data.get("prompt")
         }
     ];
-    const response = await chatWithGPT(content);
+    const response = await chatWithGPT(content, data.get("prompt"));
 
     clearInterval(loadInterval);
     messageDiv.innerHTML = " ";
@@ -118,23 +118,22 @@ form.addEventListener("keyup", e => {
     }
 });
 
-function chatWithGPT(messages) {
+function chatWithGPT(messages, txt) {
     return new Promise((resolve, reject) => {
         fetch(
-            "https://oai-4.openai.azure.com/openai/deployments/complete-4/chat/completions?api-version=2023-07-01-preview",
+            "https://www.freechatgptonline.com/wp-json/mwai-ui/v1/chats/submit",
             {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "api-key": "2e6532692d764b48b5454f0f4abf8c81"
-                },
-                body: JSON.stringify({
-                    messages
-                })
+                body: {
+                    botId: "default",
+                    messages,
+                    newMessage: txt,
+                    stream: false
+                }
             }
         ).then(response => {
             response.json().then(data => {
-                resolve(data.choices[0].message.content);
+                resolve(data.reply);
             });
         });
     });
