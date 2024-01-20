@@ -1,6 +1,6 @@
 import bot from "./assets/bot.svg";
 import user from "./assets/user.svg";
-
+import axios from "axios";
 const form = document.querySelector("form");
 const chatContainer = document.querySelector("#chat_container");
 
@@ -120,21 +120,22 @@ form.addEventListener("keyup", e => {
 
 function chatWithGPT(messages, txt) {
     return new Promise((resolve, reject) => {
-        fetch(
-            "https://www.freechatgptonline.com/wp-json/mwai-ui/v1/chats/submit",
-            {
-                method: "POST",
-                body: {
-                    botId: "default",
-                    messages,
-                    newMessage: txt,
-                    stream: false
-                }
-            }
-        ).then(response => {
-            response.json().then(data => {
-                resolve(data.reply);
+        const url =
+            "https://www.freechatgptonline.com/wp-json/mwai-ui/v1/chats/submit";
+        const body = {
+            botId: "default",
+            messages,
+            newMessage: txt,
+            stream: false
+        };
+
+        axios
+            .post(url, body)
+            .then(response => {
+                resolve(response.data.reply);
+            })
+            .catch(error => {
+                resolve(error.data.message);
             });
-        });
     });
 }
