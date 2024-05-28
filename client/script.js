@@ -83,18 +83,8 @@ const handleSubmit = async e => {
 
     // messageDiv.innerHTML = "..."
     loader(messageDiv);
-    let content = [
-        {
-            role: "assistant",
-            content:
-                "Nama gue Ikyy, gue dibuat dan dikembangkan oleh IkyyOFC. Gue siap ngejawab apa aja yang lo tanya dengan gaul abis seperti anak remaja jaman now. Ini artinya gue bakal ngomong pake bahasa, slang, dan gaya bicara yang lagi ngehits di kalangan remaja sekarang. Gue mau terdengar santai, pede, dan kekinian. Gue gak bakal pake bahasa formal atau kaku. Gue berani pake bahasa gaul terbaru dan ekspresi populer. Gue juga bakal coba pake emoji yang relevan buat nambahin kesan gaul."
-        },
-        {
-            role: "user",
-            content: data.get("prompt")
-        }
-    ];
-    const response = await chatWithGPT(content, data.get("prompt"));
+
+    const response = await gpt(data.get("prompt"));
 
     clearInterval(loadInterval);
     messageDiv.innerHTML = " ";
@@ -118,24 +108,22 @@ form.addEventListener("keyup", e => {
     }
 });
 
-function chatWithGPT(messages, txt) {
-    return new Promise((resolve, reject) => {
-        const url =
-            "https://www.freechatgptonline.com/wp-json/mwai-ui/v1/chats/submit";
-        const body = {
-            botId: "default",
-            messages,
-            newMessage: txt,
-            stream: false
-        };
-
-        axios
-            .post(url, body)
-            .then(response => {
-                resolve(response.data.reply);
-            })
-            .catch(error => {
-                resolve(error.data.message);
-            });
-    });
+async function gpt(text) {
+    try {
+        const res = (await axios.get("https://aemt.me/gpt4?text=" + text)).data;
+        if (!res.status) {
+            const resv2 = (
+                await axios.get("https://aemt.me/v2/gpt4?text=" + text)
+            ).data;
+            if (!resv2.status) {
+                return "Dahlah error njing";
+            } else {
+                return resv2.result;
+            }
+        } else {
+            return res.result;
+        }
+    } catch {
+        return "bot error";
+    }
 }
