@@ -137,7 +137,7 @@ async function chatWithGPT(data_msg) {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({
+                body: {
                     messages: [{
                       role: "system",
                       content: "kamu adalah asisten yang keren dan gaul. kamu akan menjawab tanpa tanda baca, menggunakan huruf kecil semua, dan sesingkat mungkin. jangan gunakan bahasa formal atau kaku. gunakan bahasa gaul dan ekspresi populer. jangan gunakan \"bro\" atau kata sapaan lainnya"
@@ -146,7 +146,7 @@ async function chatWithGPT(data_msg) {
                       role: "user",
                       content: data_msg
                     }]
-                })
+                }
             }
         );
         const data = await response.text();
