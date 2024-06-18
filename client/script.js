@@ -89,16 +89,10 @@ const handleSubmit = async e => {
     clearInterval(loadInterval);
     messageDiv.innerHTML = " ";
 
-    if (response) {
+    
         const parsedData = response; // trims any trailing spaces/'\n'
 
         typeText(messageDiv, parsedData);
-    } else {
-        const err = await response
-
-        messageDiv.innerHTML = "Something went wrong";
-        alert(err);
-    }
 };
 
 form.addEventListener("submit", handleSubmit);
