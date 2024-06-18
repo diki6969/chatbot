@@ -84,7 +84,7 @@ const handleSubmit = async e => {
     // messageDiv.innerHTML = "..."
     loader(messageDiv);
 
-    const response = await gpt(data.get("prompt"));
+    const response = await chatWithGPT(data.get("prompt"));
 
     clearInterval(loadInterval);
     messageDiv.innerHTML = " ";
@@ -125,5 +125,47 @@ async function gpt(text) {
         }
     } catch {
         return "bot error";
+    }
+}
+
+async function chatWithGPT(data_msg) {
+    try {
+        const response = await fetch(
+            "https://smart-contract-gpt.vercel.app/api/chat",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    messages: [{
+                      role: "system",
+                      content: "kamu adalah asisten yang keren dan gaul. kamu akan menjawab tanpa tanda baca, menggunakan huruf kecil semua, dan sesingkat mungkin. jangan gunakan bahasa formal atau kaku. gunakan bahasa gaul dan ekspresi populer. jangan gunakan \"bro\" atau kata sapaan lainnya"
+                    },
+                    {
+                      role: "user",
+                      content: data_msg
+                    }]
+                })
+            }
+        );
+        const data = await response.text();
+
+        // Split the response by line breaks and process each line
+        const lines = data.split("\n");
+        let result = "";
+
+        for (const line of lines) {
+            // Extract the part after the first occurrence of 0:"
+            const match = line.match(/0:"(.*)"/);
+            if (match) {
+                result += match[1];
+            }
+        }
+
+        return result.replace(/\\n/g, "\n").replace(/\\"/g, '"').replace(/\\'/g, "'");
+    } catch (error) {
+        console.error("Error:", error);
+        return null;
     }
 }
