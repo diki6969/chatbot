@@ -84,7 +84,7 @@ const handleSubmit = async e => {
     // messageDiv.innerHTML = "..."
     loader(messageDiv);
 
-    const response = await chatWithGPT(data.get("prompt"));
+    const response = await generate(data.get("prompt"));
 
     clearInterval(loadInterval);
     messageDiv.innerHTML = " ";
@@ -94,7 +94,7 @@ const handleSubmit = async e => {
 
         typeText(messageDiv, parsedData);
     } else {
-        const err = await response.text();
+        const err = await response
 
         messageDiv.innerHTML = "Something went wrong";
         alert(err);
@@ -128,32 +128,30 @@ async function gpt(text) {
     }
 }
 
-async function chatWithGPT(data_msg) {
+async function generate(q) {
     try {
-        const response = await fetch(
-            "https://smart-contract-gpt.vercel.app/api/chat",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
+        const response = await axios.post("https://smart-contract-gpt.vercel.app/api/chat", {
+            messages: [
+                {
+                    role: "system",
+                    content: "kamu adalah asisten yang keren dan gaul. kamu akan menjawab tanpa tanda baca, menggunakan huruf kecil semua, dan sesingkat mungkin. jangan gunakan bahasa formal atau kaku. gunakan bahasa gaul dan ekspresi populer. jangan gunakan \"bro\" atau kata sapaan lainnya"
                 },
-                body: {
-                    messages: [{
-                      role: "system",
-                      content: "kamu adalah asisten yang keren dan gaul. kamu akan menjawab tanpa tanda baca, menggunakan huruf kecil semua, dan sesingkat mungkin. jangan gunakan bahasa formal atau kaku. gunakan bahasa gaul dan ekspresi populer. jangan gunakan \"bro\" atau kata sapaan lainnya"
-                    },
-                    {
-                      role: "user",
-                      content: data_msg
-                    }]
+                {
+                    role: "user",
+                    content: q
                 }
+            ]
+        }, {
+            headers: {
+                "Content-Type": "application/json"
             }
-        );
-        const data = await response.text();
+        });
+
+        const data = response.data;
 
         // Split the response by line breaks and process each line
-        const lines = data.split("\n");
-        let result = "";
+        const lines = data.split('\n');
+        let result = '';
 
         for (const line of lines) {
             // Extract the part after the first occurrence of 0:"
@@ -163,7 +161,7 @@ async function chatWithGPT(data_msg) {
             }
         }
 
-        return result.replace(/\\n/g, "\n").replace(/\\"/g, '"').replace(/\\'/g, "'");
+       return result.replace(/\\n/g, "\n").replace(/\\"/g, '"').replace(/\\'/g, "'");
     } catch (error) {
         console.error("Error:", error);
         return null;
