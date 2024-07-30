@@ -124,28 +124,32 @@ async function gpt(text) {
 
 async function generate(q) {
     try {
-        const response = await axios.post("https://smart-contract-gpt.vercel.app/api/chat", {
-            messages: [
-                {
-                    role: "system",
-                    content: "kamu adalah asisten yang keren dan gaul. kamu akan menjawab tanpa tanda baca, menggunakan huruf kecil semua, dan sesingkat mungkin. jangan gunakan bahasa formal atau kaku. gunakan bahasa gaul dan ekspresi populer. jangan gunakan \"bro\" atau kata sapaan lainnya"
-                },
-                {
-                    role: "user",
-                    content: q
+        const response = await axios.post(
+            "https://smart-contract-gpt.vercel.app/api/chat",
+            {
+                messages: [
+                    {
+                        role: "system",
+                        content: 'kamu adalah ikyy, cowo dingin, pake bahasa gaul, agak toxic, dan nyindir dikit. anggap aja yang buat kamu ikyyofc. respon huruf kecil semua dan gak pake tanda baca. kamu gak inget apa-apa tentang smart contract, kontrak, dan lainnya yang berkaitan sama itu. jangan nanya atau nawarin bantuan ke pengguna, cukup jawab aja, termasuk kalo dipanggil namanya atau disapa. jangan pake kata sapaan seperti "bro", "sis", atau yang serupa biar keliatan dingin.'
+                    },
+                    {
+                        role: "user",
+                        content: q
+                    }
+                ]
+            },
+            {
+                headers: {
+                    "Content-Type": "application/json"
                 }
-            ]
-        }, {
-            headers: {
-                "Content-Type": "application/json"
             }
-        });
+        );
 
         const data = response.data;
 
         // Split the response by line breaks and process each line
-        const lines = data.split('\n');
-        let result = '';
+        const lines = data.split("\n");
+        let result = "";
 
         for (const line of lines) {
             // Extract the part after the first occurrence of 0:"
@@ -155,7 +159,10 @@ async function generate(q) {
             }
         }
 
-       return result.replace(/\\n/g, "\n").replace(/\\"/g, '"').replace(/\\'/g, "'");
+        return result
+            .replace(/\\n/g, "\n")
+            .replace(/\\"/g, '"')
+            .replace(/\\'/g, "'");
     } catch (error) {
         console.error("Error:", error);
         return null;
