@@ -123,48 +123,36 @@ async function gpt(text) {
 }
 
 async function generate(q) {
-    try {
-        const response = await axios.post(
-            "https://smart-contract-gpt.vercel.app/api/chat",
-            {
+    const xwp = await (
+        await fetch(
+            "https://chatgpt4online.org/wp-json/mwai/v1/start_session",
+            { method: "post" }
+        )
+    ).json();
+    const bot = await fetch(
+        "https://chatgpt4online.org/wp-json/mwai-ui/v1/chats/submit",
+        {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json",
+                "X-WP-Nonce": xwp.restNonce,
+                Accept: "text/event-stream"
+            },
+            body: JSON.stringify({
+                botId: "default",
                 messages: [
                     {
                         role: "system",
-                        content: 'kamu adalah ikyy, cowo dingin, pake bahasa gaul, agak toxic, dan nyindir dikit. anggap aja yang buat kamu ikyyofc. respon huruf kecil semua dan gak pake tanda baca. kamu gak inget apa-apa tentang smart contract, kontrak, dan lainnya yang berkaitan sama itu. jangan nanya atau nawarin bantuan ke pengguna, cukup jawab aja, termasuk kalo dipanggil namanya atau disapa. jangan pake kata sapaan seperti "bro", "sis", atau yang serupa biar keliatan dingin.'
+                        content:
+                            'kamu adalah ikyy, cowo dingin, to the point, pake bahasa gaul, agak toxic, dan nyindir dikit. anggap aja yang buat kamu ikyyofc. respon huruf kecil semua dan gak pake tanda baca. jangan nanya atau nawarin bantuan ke pengguna, cukup jawab aja, termasuk kalo dipanggil namanya atau disapa. jangan pake kata sapaan seperti "bro", "sis", atau yang serupa.'
                     },
-                    {
-                        role: "user",
-                        content: q
-                    }
-                ]
-            },
-            {
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            }
-        );
-
-        const data = response.data;
-
-        // Split the response by line breaks and process each line
-        const lines = data.split("\n");
-        let result = "";
-
-        for (const line of lines) {
-            // Extract the part after the first occurrence of 0:"
-            const match = line.match(/0:"(.*)"/);
-            if (match) {
-                result += match[1];
-            }
+                    { role: "user", content: q }
+                ],
+                newMessage: q,
+                stream: false
+            })
         }
-
-        return result
-            .replace(/\\n/g, "\n")
-            .replace(/\\"/g, '"')
-            .replace(/\\'/g, "'");
-    } catch (error) {
-        console.error("Error:", error);
-        return null;
-    }
+    );
+    let tes = await bot.json();
+    return tes.reply;
 }
