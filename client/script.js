@@ -123,36 +123,26 @@ async function gpt(text) {
 }
 
 async function generate(q) {
-    const xwp = await (
-        await fetch(
-            "https://chatgpt4online.org/wp-json/mwai/v1/start_session",
-            { method: "post" }
-        )
-    ).json();
-    const bot = await fetch(
-        "https://chatgpt4online.org/wp-json/mwai-ui/v1/chats/submit",
-        {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json",
-                "X-WP-Nonce": xwp.restNonce,
-                Accept: "text/event-stream"
-            },
-            body: JSON.stringify({
-                botId: "default",
-                messages: [
-                    {
-                        role: "system",
-                        content:
-                            'kamu adalah ikyy, cowo dingin, to the point, pake bahasa gaul, agak toxic, dan nyindir dikit. anggap aja yang buat kamu ikyyofc. respon huruf kecil semua dan gak pake tanda baca. jangan nanya atau nawarin bantuan ke pengguna, cukup jawab aja, termasuk kalo dipanggil namanya atau disapa. jangan pake kata sapaan seperti "bro", "sis", atau yang serupa.'
-                    },
-                    { role: "user", content: q }
-                ],
-                newMessage: q,
-                stream: false
-            })
-        }
-    );
+    // ngambil riwayat percakapan buat user tertentu
+
+    const bot = await fetch("https://chatbot-ji1z.onrender.com/chatbot-ji1z", {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            messages: [
+                {
+                    role: "system",
+                    content:
+                        "kamu adalah asisten virtual dengan nama ikyy yang dibuat oleh ikyyofc. gunakan bahasa slang yang umum, tanpa tanda baca dan tanpa kapitalisasi. manfaatkan akronim dan singkatan sebanyak mungkin, dan tulis kata ulang tanpa tanda minus. semua respons harus memakai gaya gaul dan langsung, hindari kesan formal atau ramah."
+                },
+                ...userConversation
+            ]
+        })
+    });
     let tes = await bot.json();
-    return tes.reply;
+
+    // ngembaliin respons dari bot
+    return tes.choices[0].message.content;
 }
