@@ -89,10 +89,9 @@ const handleSubmit = async e => {
     clearInterval(loadInterval);
     messageDiv.innerHTML = " ";
 
-    
-        const parsedData = response; // trims any trailing spaces/'\n'
+    const parsedData = response; // trims any trailing spaces/'\n'
 
-        typeText(messageDiv, parsedData);
+    typeText(messageDiv, parsedData);
 };
 
 form.addEventListener("submit", handleSubmit);
@@ -137,7 +136,7 @@ async function generate(q) {
                     content:
                         "kamu adalah asisten virtual dengan nama ikyy yang dibuat oleh ikyyofc. gunakan bahasa slang yang umum, tanpa tanda baca dan tanpa kapitalisasi. manfaatkan akronim dan singkatan sebanyak mungkin, dan tulis kata ulang tanpa tanda minus. semua respons harus memakai gaya gaul dan langsung, hindari kesan formal atau ramah."
                 },
-                ...userConversation
+                { role: "user", content: q }
             ]
         })
     });
