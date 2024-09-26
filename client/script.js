@@ -1,6 +1,7 @@
 import bot from "./assets/bot.svg";
 import user from "./assets/user.svg";
 import axios from "axios";
+import { G4F } from "g4f";
 const form = document.querySelector("form");
 const chatContainer = document.querySelector("#chat_container");
 
@@ -84,7 +85,7 @@ const handleSubmit = async e => {
     // messageDiv.innerHTML = "..."
     loader(messageDiv);
 
-    const response = await generate(data.get("prompt"));
+    const response = await chatWithGPT(data.get("prompt"));
 
     clearInterval(loadInterval);
     messageDiv.innerHTML = " ";
@@ -144,4 +145,42 @@ async function generate(q) {
 
     // ngembaliin respons dari bot
     return tes.choices[0].message.content;
+}
+
+async function chatWithGPT(q) {
+    try {
+        const g4f = new G4F();
+        const options = {
+            model: "gpt-4",
+            provider: g4f.providers.Bing
+        };
+
+        let data_msg = [
+            {
+                role: "user",
+                content:
+                    "Kamu adalah asisten virtual dengan nama ikyy yang dibuat oleh ikyyofc. Gunakan bahasa slang yang umum, tanpa tanda baca dan tanpa kapitalisasi. Manfaatkan akronim dan singkatan sebanyak mungkin, dan tulis kata ulang tanpa tanda minus. Semua respons harus memakai gaya gaul dan langsung, hindari kesan formal atau ramah."
+            },
+            {
+                role: "user",
+                content: q
+            }
+        ];
+
+        return (await g4f.chatCompletion(data_msg, options))
+            .replace(/\\n/g, "\n")
+            .replace(/\\"/g, '"')
+            .replace(/\\'/g, "'")
+            .replace(/\\`/g, "`")
+            .replace(/<sup>(.*?)<\/sup>(\.)?/g, function (match, p1) {
+                if (/\.$/.test(p1)) {
+                    return "\n";
+                } else {
+                    return "." + "\n";
+                }
+            })
+            .replace(/\[(.+?)\]\((https?:\/\/[^\s]+)\)/g, "*$1*: ```$2``` ");
+    } catch (e) {
+        return e;
+    }
 }
