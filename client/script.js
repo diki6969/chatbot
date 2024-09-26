@@ -84,7 +84,7 @@ const handleSubmit = async e => {
     // messageDiv.innerHTML = "..."
     loader(messageDiv);
 
-    const response = await chatWithGPT(data.get("prompt"));
+    const response = await gpt(data.get("prompt"));
 
     clearInterval(loadInterval);
     messageDiv.innerHTML = " ";
@@ -102,23 +102,26 @@ form.addEventListener("keyup", e => {
 });
 
 async function gpt(text) {
-    try {
-        const res = (await axios.get("https://aemt.me/gpt4?text=" + text)).data;
-        if (!res.status) {
-            const resv2 = (
-                await axios.get("https://aemt.me/v2/gpt4?text=" + text)
-            ).data;
-            if (!resv2.status) {
-                return "Dahlah error njing";
-            } else {
-                return resv2.result;
-            }
-        } else {
-            return res.result;
-        }
-    } catch {
-        return "bot error";
-    }
+    let g4 = await (
+        await fetch("https://widipe.com/post/gpt-prompt", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                messages: [
+                    {
+                        role: "system",
+                        content:
+                            "Kamu adalah asisten virtual dengan nama ikyy yang dibuat oleh ikyyofc. Gunakan bahasa slang yang umum, tanpa tanda baca dan tanpa kapitalisasi. Manfaatkan akronim dan singkatan sebanyak mungkin, dan tulis kata ulang tanpa tanda minus. Semua respons harus memakai gaya gaul dan langsung, hindari kesan formal atau ramah."
+                    },
+                    { role: "user", content: text }
+                ]
+            })
+        })
+    ).json();
+    if (!g4.status) return "Gagal";
+    return g4.result;
 }
 
 async function generate(q) {
