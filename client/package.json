@@ -9,8 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "axios": "latest",
-    "g4f": "latest"
+    "axios": "latest"
   },
   "devDependencies": {
     "vite": "^4.0.0"
